@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Sudoku</title>
+    <style type="text/css">
+        .btn {
+            width: 55px;
+            height: 55px;
+            font-size: 25px;
+        }
+
+        .numbersdiv {
+            border: 1px solid black;
+            width: 400px;
+            height: 40px;
+        }
+
+        .btnnum {
+            width: 15px;
+            height: 15px;
+            font-size: 7px;
+        }
+    </style>
+</head>
+<body>
+    <div id="dashboard"></div>
+    <div id=numbersdiv class=numbersdiv></div>
+    <script type="text/javascript">
+        function _(iD) {
+            return document.getElementById(iD);
+        }
+        var distributeId = 0;
+        var board = "";
+        var trs = "";
+        var player = true;
+        var alphabets = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+        var numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        var element = "";
+        var firstloop = 0;
+        var numbersdiv = _("numbersdiv");
+        var result = 0;
+        function BindBoard() {
+            numbersdiv.style.visibility = "hidden";
+            firstloop = 9;
+            board = board + "<table>";
+            for (var i = 0 ; i < firstloop; i++) {
+                trs = trs + "<tr>"
+                element = alphabets[i];
+                for (var j = 0; j < firstloop; j++) {
+                    trs = trs + "<td><input class='btn' id=" + element + j + " type='button' onclick='bindValues(" + element + j + ")'/></td>";
+                }
+                trs = trs + "</tr>"
+            }
+          
+            board = board + trs + "</table>";
+            var dashboard = _("dashboard");
+            dashboard.innerHTML = board;
+          
+        }
+        BindBoard();
+        BindDefaultValuesTobutton();
+        function bindValues(value) {
+            // debugger;
+            var id = value.id;
+            numbersdiv.style.visibility = "visible";
+            var button = "";
+            for (var i = 1; i <=9; i++) {
+                button = button + '<input class="btnnum"  value=' + i + '  id=e' + i + ' type="button"  onclick="hide(this, \'' + id + '\');">'
+            }
+            numbersdiv.innerHTML = button;
+        }
+        function BindDefaultValuesTobutton()
+        {
+            var alphabets = ["A0", "A1", "A2", "A3", "A4", "A5", "A6", "A7", "A8",
+                "B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8",
+                "C0", "C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8",
+                "D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8",
+                "E0", "E1", "E2", "E3","E4", "E5", "E6", "E7", "E8",
+                "F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8",
+                "G0","G1", "G2", "G3", "G4", "G5", "G6", "G7", "G8",
+                "H0", "H1", "H2", "H3", "H4", "H5", "H6","H7", "H8",
+                "I0", "I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8"];
+            var storevalues = [];
+            var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+          
+          
+            //debugger;
+            for (var i = 0; i < 20; i++) {
+                var rand = alphabets[Math.round(Math.random() * (alphabets.length - 1))];
+                storevalues.push(rand);
+            }
+            for (var i = 0; i < storevalues.length; i++) {
+                var rand = numbers[Math.round(Math.random() * (numbers.length - 1))];
+                _(storevalues[i]).value = rand;
+            }
+          
+          
+        }
+        function hide(a, b) {
+            // debugger;
+            var id = _(b);
+            id.value = a.value;
+            numbersdiv.style.visibility = "hidden";
+             checkHorizontal();
+            checkVertical();
+            checkeachABCCubicle();
+            checkeachDEFCubicle();
+            checkeachGHICubicle();
+            if (result == 1) {
+                alert("There are some Numbers repeated");
+                
+            }
+result = 0; 
+        }
+        function checkHorizontal() {
+          
+            var k = 0;
+            for (var j = 0; j < alphabets.length; j++) {
+                for (var i = 0; i < alphabets.length; i++) {
+
+                    if ((_(alphabets[0] + k).value == _(alphabets[0] + (i)).value) && ((alphabets[0] + k) != (alphabets[0] + (i)))
+                        && (_(alphabets[0] + (i)).value != "")) {
+                        result = 1;
+                    }
+                    if ((_(alphabets[1] + k).value == _(alphabets[1] + (i)).value) && ((alphabets[1] + k) != (alphabets[1] + (i)))
+                        && (_(alphabets[1] + (i)).value != "")) {
+                        result = 1;
+                    }
+                    //debugger;
+                    if ((_(alphabets[2] + k).value == _(alphabets[2] + (i)).value) && ((alphabets[2] + k) != (alphabets[2] + (i)))
+                       && (_(alphabets[2] + (i)).value != "")) {
+                        result = 1;
+                    }
+
+                    if ((_(alphabets[3] + k).value == _(alphabets[3] + (i)).value) && ((alphabets[3] + k) != (alphabets[3] + (i)))
+                       && (_(alphabets[3] + (i)).value != "")) {
+                        result = 1;
+                    }
+                    if ((_(alphabets[4] + k).value == _(alphabets[4] + (i)).value) && ((alphabets[4] + k) != (alphabets[4] + (i)))
+                       && (_(alphabets[4] + (i)).value != "")) {
+                        result = 1;
+                    }
+                    if ((_(alphabets[5] + k).value == _(alphabets[5] + (i)).value) && ((alphabets[5] + k) != (alphabets[5] + (i)))
+                       && (_(alphabets[5] + (i)).value != "")) {
+                        result = 1;
+                    }
+                    if ((_(alphabets[6] + k).value == _(alphabets[6] + (i)).value) && ((alphabets[6] + k) != (alphabets[6] + (i)))
+                       && (_(alphabets[6] + (i)).value != "")) {
+                        result = 1;
+                    }
+                    if ((_(alphabets[7] + k).value == _(alphabets[7] + (i)).value) && ((alphabets[7] + k) != (alphabets[7] + (i)))
+                       && (_(alphabets[7] + (i)).value != "")) {
+                        result = 1;
+                    }
+                    if ((_(alphabets[8] + k).value == _(alphabets[8] + (i)).value) && ((alphabets[8] + k) != (alphabets[8] + (i)))
+                        && (_(alphabets[8] + (i)).value != "")) {
+                        result = 1;
+                    }
+                }
+                k++;
+            }
+            //alert(result);
+
+        }
+        function checkVertical() {
+            //  debugger;
+            var k = 0;
+            for (var j = 0; j < firstloop; j++) {
+
+                //debugger;
+                for (var i = 0; i < alphabets.length; i++) {
+                    if (((_("A" + k).value == _(alphabets[i] + k).value) && (_("A" + k) != _(alphabets[i] + k)) ||
+                        (_("B" + k).value == _(alphabets[i] + k).value) && (_("B" + k) != _(alphabets[i] + k))
+                        || (_("C" + k).value == _(alphabets[i] + k).value) && (_("C" + k) != _(alphabets[i] + k))
+                        || (_("D" + k).value == _(alphabets[i] + k).value) && (_("D" + k) != _(alphabets[i] + k))
+                        || (_("E" + k).value == _(alphabets[i] + k).value) && (_("E" + k) != _(alphabets[i] + k))
+                        || (_("F" + k).value == _(alphabets[i] + k).value) && (_("F" + k) != _(alphabets[i] + k))
+                        || (_("G" + k).value == _(alphabets[i] + k).value) && (_("G" + k) != _(alphabets[i] + k))
+                        || (_("H" + k).value == _(alphabets[i] + k).value) && (_("H" + k) != _(alphabets[i] + k))
+                        || (_("I" + k).value == _(alphabets[i] + k).value) && (_("I" + k) != _(alphabets[i] + k))) && (_(alphabets[i] + k)).value != "") {
+                        result = 1;
+                    }
+                }
+                k++;
+            }
+        }
+        function checkeachABCCubicle() {
+            //debugger;
+            var i = 0;
+            var k = 0;
+            var j = 0;
+            var alphabets = ["A", "A", "A", "B", "B", "B", "C", "C", "C"];
+            //debugger;
+            for (var k = 0; k < 9; k++) {
+                if (j % 3 == 0) {
+                    j = 0;
+                }
+                for (var i = 0; i < 3; i++) {
+                    if ((
+                        (_(alphabets[k] + (j)).value == _("A" + (i)).value && ((alphabets[k] + (j)) != ("A" + (i))) && _(alphabets[k] + (j)).value!="") ||
+                       (_(alphabets[k] + (j)).value == _("B" + (i)).value && ((alphabets[k] + (j)) != ("B" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                       (_(alphabets[k] + (j)).value == _("C" + (i)).value && ((alphabets[k] + (j)) != ("C" + (i))) && _(alphabets[k] + (j)).value != "")
+                        )) {
+                        result = 1;
+                    }
+
+                }
+                j = j + 1;
+
+            }
+            // debugger;
+            //Check next cubicle
+            j = 3;
+            for (var k = 0; k < 9; k++) {
+                if (j % 3 == 0) {
+                    j = 3;
+                }
+
+                for (var i = 3; i < 6; i++) {
+                    if ((
+                        (_(alphabets[k] + (j)).value == _("A" + (i)).value && ((alphabets[k] + (j)) != ("A" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                       (_(alphabets[k] + (j)).value == _("B" + (i)).value && ((alphabets[k] + (j)) != ("B" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                       (_(alphabets[k] + (j)).value == _("C" + (i)).value && ((alphabets[k] + (j)) != ("C" + (i))) && _(alphabets[k] + (j)).value != "")
+                        )) {
+                        result = 1;
+                    }
+
+                }
+                j = j + 1;
+
+            }
+            //debugger;
+            //Check next cubicle
+            j = 6;
+            for (var k = 0; k < 9; k++) {
+                if (j % 3 == 0) {
+                    j = 6;
+                }
+
+                for (var i = 6; i < 9; i++) {
+                    if ((
+                        (_(alphabets[k] + (j)).value == _("A" + (i)).value && ((alphabets[k] + (j)) != ("A" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                       (_(alphabets[k] + (j)).value == _("B" + (i)).value && ((alphabets[k] + (j)) != ("B" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                       (_(alphabets[k] + (j)).value == _("C" + (i)).value && ((alphabets[k] + (j)) != ("C" + (i))) && _(alphabets[k] + (j)).value != "")
+                        )) {
+                        result = 1;
+                    }
+
+                }
+                j = j + 1;
+
+            }
+        }
+        function checkeachDEFCubicle() {
+
+            //debugger;
+            var i = 0;
+            var k = 0;
+            var j = 0;
+            var alphabets = ["D", "D", "D", "E", "E", "E", "F", "F", "F"];
+            for (var k = 0; k < 9; k++) {
+                if (j % 3 == 0) {
+                    j = 0;
+                }
+                for (var i = 0; i < 3; i++) {
+                    if ((
+                        (_(alphabets[k] + (j)).value == _("D" + (i)).value && ((alphabets[k] + (j)) != ("D" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                       (_(alphabets[k] + (j)).value== _("E" + (i)).value && ((alphabets[k] + (j)) != ("E" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                       (_(alphabets[k] + (j)).value == _("F" + (i)).value && ((alphabets[k] + (j)) != ("F" + (i))) && _(alphabets[k] + (j)).value != "")
+                        )) {
+                        result = 1;
+                    }
+
+                }
+                j = j + 1;
+
+            }
+            // debugger;
+            //Check next cubicle
+            j = 3;
+            for (var k = 0; k < 9; k++) {
+                if (j % 3 == 0) {
+                    j = 3;
+                }
+
+                for (var i = 3; i < 6; i++) {
+                    if ((
+                         (_(alphabets[k] + (j)).value == _("D" + (i)).value && ((alphabets[k] + (j)) != ("D" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                        (_(alphabets[k] + (j)).value == _("E" + (i)).value && ((alphabets[k] + (j)) != ("E" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                        (_(alphabets[k] + (j)).value == _("F" + (i)).value && ((alphabets[k] + (j)) != ("F" + (i))) && _(alphabets[k] + (j)).value != "")
+                         )) {
+                        result = 1;
+                    }
+
+
+                }
+                j = j + 1;
+
+            }
+            //debugger;
+            //Check next cubicle
+            j = 6;
+            for (var k = 0; k < 9; k++) {
+                if (j % 3 == 0) {
+                    j = 6;
+                }
+
+                for (var i = 6; i < 9; i++) {
+                    if ((
+                                            (_(alphabets[k] + (j)).value == _("D" + (i)).value && ((alphabets[k] + (j)) != ("D" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                                           (_(alphabets[k] + (j)).value == _("E" + (i)).value && ((alphabets[k] + (j)) != ("E" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                                           (_(alphabets[k] + (j)).value == _("F" + (i)).value && ((alphabets[k] + (j)) != ("F" + (i))) && _(alphabets[k] + (j)).value != "")
+                                            )) {
+                        result = 1;
+                    }
+
+                }
+                j = j + 1;
+
+            }
+        }
+        function checkeachGHICubicle() {
+
+            //debugger;
+            var i = 0;
+            var k = 0;
+            var j = 0;
+            var alphabets = ["G", "G", "G", "H", "H", "H", "I", "I", "I"];
+            for (var k = 0; k < 9; k++) {
+                if (j % 3 == 0) {
+                    j = 0;
+                }
+                for (var i = 0; i < 3; i++) {
+                    if ((
+                                            (_(alphabets[k] + (j)).value == _("G" + (i)).value && ((alphabets[k] + (j)) != ("G" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                                           (_(alphabets[k] + (j)).value == _("H" + (i)).value && ((alphabets[k] + (j)) != ("H" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                                           (_(alphabets[k] + (j)).value == _("I" + (i)).value && ((alphabets[k] + (j)) != ("I" + (i))) && _(alphabets[k] + (j)).value != "")
+                                            )) {
+                        result = 1;
+                    }
+
+                }
+                j = j + 1;
+
+            }
+            // debugger;
+            //Check next cubicle
+            j = 3;
+            for (var k = 0; k < 9; k++) {
+                if (j % 3 == 0) {
+                    j = 3;
+                }
+
+                for (var i = 3; i < 6; i++) {
+                    if ((
+                                            (_(alphabets[k] + (j)).value == _("G" + (i)).value && ((alphabets[k] + (j)) != ("G" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                                           (_(alphabets[k] + (j)).value == _("H" + (i)).value && ((alphabets[k] + (j)) != ("H" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                                           (_(alphabets[k] + (j)).value == _("I" + (i)).value && ((alphabets[k] + (j)) != ("I" + (i))) && _(alphabets[k] + (j)).value != "")
+                                            )) {
+                        result = 1;
+                    }
+
+                }
+                j = j + 1;
+
+            }
+            //debugger;
+            //Check next cubicle
+            j = 6;
+            for (var k = 0; k < 9; k++) {
+                if (j % 3 == 0) {
+                    j = 6;
+                }
+
+                for (var i = 6; i < 9; i++) {
+                    if ((
+                                            (_(alphabets[k] + (j)).value == _("G" + (i)).value && ((alphabets[k] + (j)) != ("G" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                                           (_(alphabets[k] + (j)).value == _("H" + (i)).value && ((alphabets[k] + (j)) != ("H" + (i))) && _(alphabets[k] + (j)).value != "") ||
+                                           (_(alphabets[k] + (j)).value == _("I" + (i)).value && ((alphabets[k] + (j)) != ("I" + (i))) && _(alphabets[k] + (j)).value != "")
+                                            )) {
+                        result = 1;
+                    }
+
+                }
+                j = j + 1;
+
+            }
+        }
+    </script>
+</body>
+</html>

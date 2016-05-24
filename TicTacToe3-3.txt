@@ -1,0 +1,347 @@
+<html xmlns="http://www.w3.org/1999/xhtml">  
+<head runat="server">  
+    <style type="text/css">  
+        .btn {  
+            width: 55px;  
+            height: 55px;  
+            font-size: 25px;  
+        }  
+    </style>  
+    <title></title>  
+</head>  
+<body>  
+  
+      
+        <div>  
+            <table>  
+                <tr>  
+                    <td>  
+                        <input id="2Player" type="button" value="TwoPlayer" onclick="SelectGame(this.id)" name="2Player" />  
+                    </td>  
+                    <td>  
+                        <input id="Computer" type="button" value="Computer" onclick="SelectGame(this.id)" name="Computer" />  
+                    </td>  
+                </tr>  
+            </table>  
+            <table>  
+                <tr>  
+                    <td>  
+                        <input id="A1" type="button" onclick="checkUser(this.id);" class="btn" name="A1" />  
+                    </td>  
+                    <td>  
+                        <input id="A2" type="button" onclick="checkUser(this.id);" class="btn" name="A2" />  
+                    </td>  
+                    <td>  
+                        <input id="A3" type="button" onclick="checkUser(this.id);" class="btn" name="A3" />  
+                    </td>  
+                </tr>  
+                <tr>  
+                    <td>  
+                        <input id="B1" type="button" onclick="checkUser(this.id);" class="btn" name="B1" />  
+  
+                    </td>  
+                    <td>  
+  
+                        <input id="B2" type="button" onclick="checkUser(this.id);" class="btn" name="B2" />  
+                    </td>  
+                    <td>  
+                        <input id="B3" type="button" onclick="checkUser(this.id);" class="btn" name="B3" />  
+                    </td>  
+                </tr>  
+                <tr>  
+                    <td>  
+                        <input id="C1" type="button" onclick="checkUser(this.id);" class="btn" name="C1" />  
+  
+                    </td>  
+                    <td>  
+                        <input id="C2" type="button" onclick="checkUser(this.id);" class="btn" name="C2" />  
+  
+                    </td>  
+                    <td>  
+                        <input id="C3" type="button" onclick="checkUser(this.id);" class="btn" name="C3" />  
+                    </td>  
+                </tr>  
+  
+            </table>  
+        </div>  
+     
+    <script type="text/javascript">  
+        var result = "";  
+        var CheckForWinningOpton = "";  
+        var player = true;  
+        var totalCount = 0;  
+        var gameChosen = 0;  
+          
+        var SelectGame = function (clickedId) {  
+            if (document.getElementById(clickedId).value == "TwoPlayer") {  
+                gameChosen = 0;  
+                document.getElementById("Computer").disabled = true;  
+            }  
+            else {  
+                gameChosen = 1;  
+                document.getElementById("2Player").disabled = true;  
+            }  
+        }  
+        function checkUser(clickedId) {  
+            if (gameChosen == 0) {  
+                totalCount = totalCount + 1;  
+                if (player == true) {  
+                    document.getElementById(clickedId).value = 'X';  
+                    document.getElementById(clickedId).disabled = true;  
+                    clear(false);  
+                }  
+                else {  
+                    document.getElementById(clickedId).value = 'O';  
+                    document.getElementById(clickedId).disabled = true;  
+                    clear(true);  
+                }  
+                checkForWinner();  
+            }  
+            else {  
+                //Check Whether Computer has any option to win this game  
+                //Block if Human is going to win  
+                //Pocket the Corner Place if first 2 Condition Fails  
+                //If corner places are full then go for Empty places  
+                    document.getElementById(clickedId).value = 'X';  
+                    document.getElementById(clickedId).disabled = true;  
+                    clear(false);  
+                  
+               result= CheckForWinningOpton("O");  
+                if(result==null)  
+                {  
+                    result = CheckForWinningOpton("X")  
+                    if(result==null)  
+                    {  
+                        result = LookforCorner();  
+                        if (result == null)  
+                            {  
+                            result = LookforEmpty();  
+                        }  
+                    }  
+                }  
+                 
+                document.getElementById(result).value = 'O';  
+                document.getElementById(result).disabled = true;  
+                clear(true);  
+                  
+                checkForWinner();  
+            }  
+              
+        }  
+          
+       
+        CheckForWinningOpton = function (Value) {  
+            var A1 = document.getElementById("A1").value;  
+            var A2 = document.getElementById("A2").value;  
+            var A3 = document.getElementById("A3").value;  
+  
+            var B1 = document.getElementById("B1").value;  
+            var B2 = document.getElementById("B2").value;  
+            var B3 = document.getElementById("B3").value;  
+  
+            var C1 = document.getElementById("C1").value;  
+            var C2 = document.getElementById("C2").value;  
+            var C3 = document.getElementById("C3").value;  
+  
+  
+          
+            if (A1 == Value && A2 == Value && A3 == "")  
+                return "A3";  
+            if (A1 == Value && A3 == Value && A2 == "")  
+                return "A2";  
+            if (A2 == Value && A3 == Value && A1 == "")  
+                return "A1";  
+  
+            if (B1 == Value && B2 == Value && B3 == "")  
+                return "B3";  
+            if (B1 == Value && B3 == Value && B2 == "")  
+                return "B2";  
+            if (B3 == Value && B2 == Value && B1 == "")  
+                return "B1";  
+  
+            if (C1 == Value && C2 == Value && C3 == "")  
+                return "C3";  
+            if (C1 == Value && C3 == Value && C2 == "")  
+                return "C2";  
+            if (C3 == Value && C2 == Value && C1 == "")  
+                return "C1";  
+            //Check Vertical  
+  
+  
+            if (A1 == Value && B1 == Value && C1 == "")  
+                return "C1";  
+            if (B1 == Value && C1 == Value && A1 == "")  
+                return "A1";  
+            if (A1 == Value && C1 == Value && B1 == "")  
+                return "B1";  
+  
+            if (A2 == Value && B2 == Value && C2 == "")  
+                return "C2";  
+            if (B2 == Value && C2 == Value && A2 == "")  
+                return "A2";  
+            if (A2 == Value && C2 == Value && B2 == "")  
+                return "B2";  
+  
+            if (A3 == Value && B3 == Value && C3 == "")  
+                return "C3";  
+            if (B3 == Value && C3 == Value && A3 == "")  
+                return "A3";  
+            if (A3 == Value && C3 == Value && B3 == "")  
+                return "B3";  
+  
+            //Check Diagonal  
+  
+            if (A1 == Value && B2 == Value && C3 == "")  
+                return "C3";  
+            if (B2 == Value && C3 == Value && A1 == "")  
+                return "A1";  
+            if (A1 == Value && C3 == Value && B2 == "")  
+                return "B2";  
+  
+  
+            if (C1 == Value && B2 == Value && A3 == "")  
+                return "A3";  
+            if (B2 == Value && A3 == Value && C1 == "")  
+                return "C1";  
+            if (C1 == Value && A3 == Value && B2 == "")  
+                return "B2";  
+  
+            else  
+            return null;  
+  
+        }  
+          
+        function LookforCorner()  
+        {  
+            var A1 = document.getElementById("A1").value;  
+            var A2 = document.getElementById("A2").value;  
+            var A3 = document.getElementById("A3").value;  
+  
+            var B1 = document.getElementById("B1").value;  
+            var B2 = document.getElementById("B2").value;  
+            var B3 = document.getElementById("B3").value;  
+  
+            var C1 = document.getElementById("C1").value;  
+            var C2 = document.getElementById("C2").value;  
+            var C3 = document.getElementById("C3").value;  
+  
+  
+          
+            if (A1 != "" && A3== "")  
+                return "A3";  
+  
+            if (A3 != "" && A1 == "")  
+                return "A1";  
+  
+            if (C1 != "" && C3 == "")  
+                return "C3";  
+  
+            if (C3 != "" && C1 == "")  
+                return "C3";  
+            else  
+            return null;  
+        }  
+        var LookforEmpty=function()  
+        {  
+            var A1 = document.getElementById("A1").value;  
+            var A2 = document.getElementById("A2").value;  
+            var A3 = document.getElementById("A3").value;  
+  
+            var B1 = document.getElementById("B1").value;  
+            var B2 = document.getElementById("B2").value;  
+            var B3 = document.getElementById("B3").value;  
+  
+            var C1 = document.getElementById("C1").value;  
+            var C2 = document.getElementById("C2").value;  
+            var C3 = document.getElementById("C3").value;  
+  
+  
+  
+            if (A1 == "")  
+                return "A1";  
+            if (A2 == "")  
+                return "A2";  
+            if (A3 == "")  
+                return "A3";  
+  
+  
+            if (B1 == "")  
+                return "B1";  
+            if (B2 == "")  
+                return "B2";  
+            if (B3 == "")  
+                return "B3";  
+  
+  
+            if (C1 == "")  
+                return "C1";  
+            if (C2 == "")  
+                return "C2";  
+            if (C3 == "")  
+                return "C3";  
+            else  
+            return null;  
+  
+              
+        }  
+        var checkForWinner = function () {  
+            var A1 = document.getElementById("A1").value;  
+            var A2 = document.getElementById("A2").value;  
+            var A3 = document.getElementById("A3").value;  
+  
+            var B1 = document.getElementById("B1").value;  
+            var B2 = document.getElementById("B2").value;  
+            var B3 = document.getElementById("B3").value;  
+  
+            var C1 = document.getElementById("C1").value;  
+            var C2 = document.getElementById("C2").value;  
+            var C3 = document.getElementById("C3").value;  
+  
+  
+            var checkUserWins = false;  
+  
+            if (A1 == A2 && A2 == A3 && A1 != "") {  
+                checkUserWins = true;  
+                alert(A1 + " Wins");  
+            }  
+            if (B1 == B2 && B2 == B3 && B1 != "") {  
+                checkUserWins = true;  
+                alert(B1 + " Wins");  
+            }  
+            if (C1 == C2 && C2 == C3 && C1 != "") {  
+                checkUserWins = true;  
+                alert(C1 + " Wins");  
+            }  
+  
+            if (A1 == B1 && B1 == C1 && A1 != "") {  
+                checkUserWins = true;  
+                alert(A1 + " Wins");  
+            }  
+            if (A2 == B2 && B2 == C2 && A2 != "") {  
+                checkUserWins = true;  
+                alert(A2 + " Wins");  
+            }  
+            if (A3 == B3 && B3 == C3 && A3 != "") {  
+                checkUserWins = true;  
+                alert(A3 + " Wins");  
+            }  
+  
+            if (A1 == B2 && B2 == C3 && A1 != "") {  
+                checkUserWins = true;  
+                alert(A1 + " Wins");  
+            }  
+            if (A3 == B2 && B2 == C1 && A3 != "") {  
+                checkUserWins = true;  
+                alert(A3 + " Wins");  
+            }  
+            else if (totalCount == 9 && checkUserWins==false) {  
+                alert("Game Draw");  
+            }  
+  
+        }  
+        var clear = function (value) {  
+            player = value;  
+        }  
+    </script>  
+</body>  
+</html>  

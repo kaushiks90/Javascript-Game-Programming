@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <style type="text/css">
+        .mainboardClass
+        {
+            margin:0px auto;
+            width:800px;
+            height:540px;
+            background-color:#ccc;
+            padding:24px;
+            border:dashed;
+
+          
+        }
+        div#minboard>div {
+            background: url(Images/Untitled123.png) no-repeat;
+             margin: 0px auto;
+            text-align: center;
+            margin: 10px;
+            padding: 20px;
+            width: 71px;
+            height: 71px;
+            cursor: pointer;
+            text-align: center;
+            border: thin;
+            float:left;
+            font:24px;
+        }
+    </style>
+    <script type="text/javascript">
+    
+      
+        var arr = ['A','A','B','B','C','C','D','D','E','E','F','F','G','G','H','H','I','I'];
+        var memory_values_array = [];
+        var memory_values_id = [];
+        var tilesFliped = 0;
+        Array.prototype.shuffle = function () {
+            var i = arr.length, j, temp;
+            while (--i > 0) {
+                j = Math.floor(Math.random() * (i + 1));
+                temp = this[j];
+                this[j] = this[i];
+                this[i] = temp;
+            }
+        }
+    
+    
+        //document.write(arr);
+        function newboard() {
+            var adddivs = '';
+            arr.shuffle();
+            for (var i = 0; i < arr.length; i++) {
+               adddivs += '<div id="title_' + i + '"  onclick=" pageflip(this, \''+arr[i]+'\'); "></div>';
+            }
+            document.getElementById('minboard').innerHTML = adddivs;
+        }
+      
+        function timer(secs) {
+
+        
+           document.getElementById('timeElapsed').innerHTML = "Time Elapsed " + secs;;                     
+            secs++;
+            var t = setTimeout('timer(' + secs + ')', 1000);
+
+
+        }
+      
+        function pageflip(ids,tileValue)
+        {
+          
+            if(ids.innerHTML=="" && tileValue.length < 2)
+            {
+                ids.style.color = '#FFF';
+                ids.innerHTML = tileValue;
+                ids.style.background = 'URL() no-repeat';
+                if (memory_values_array.length == 0) {
+                    memory_values_array.push(tileValue);
+                    memory_values_id.push(ids.id);
+                }
+               else if (memory_values_array.length == 1 )
+                {
+                    memory_values_array.push(tileValue);
+                    memory_values_id.push(ids.id);
+
+                    if(memory_values_array[0]==memory_values_array[1])
+                    {
+                      
+                        tilesFliped = tilesFliped + 2;
+                        memory_values_array=[];
+                        memory_values_id = [];
+
+                        if(tilesFliped==arr.length)
+                        {
+                            clearTimeout(timer);
+                            alert("Board Cleared Take this as Bonus");
+                            newboard();
+                        }
+                    }
+                    else {
+                        function ifNothingMatches() {
+                            var id1 = document.getElementById(memory_values_id[0])
+                            var id2 = document.getElementById(memory_values_id[1])
+                            id1.innerHTML = "";
+                            id1.style.background = 'URL(Images/Untitled123.png) no-repeat';
+                            id2.innerHTML = "";
+                            id2.style.background = 'URL(Images/Untitled123.png) no-repeat';
+                            memory_values_array = [];
+                            memory_values_id = [];
+                        }
+                        setTimeout(ifNothingMatches,700)
+                    }
+                }
+            }
+        }
+    </script>
+  
+</head>
+<body>
+    <div id="timeElapsed"></div>
+    <div id="minboard" class="mainboardClass"></div>
+  
+    <script>newboard();
+        timer(0);
+    </script>
+  
+  
+</body>
+</html>

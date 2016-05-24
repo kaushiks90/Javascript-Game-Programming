@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <style type="text/css">
+        #die1,#die2 {
+
+            width:52px;
+            height:47px;
+            border:2px solid;
+            border-color:gray;
+            background-color:lightgray;
+            float:left;
+            margin:3px;
+
+        }
+        button{
+
+            width:70px;
+            padding-top:76px;
+            padding-left:42px;
+            float:left;
+        }
+
+    </style>
+</head>
+<body>
+          
+    <div id="die1">0</div>
+        <div id="die2">0</div>
+   <br />
+        <input type="button"  value="Player1" id="us1"   onclick="rollDice(true);"/>
+        <input type="button"  value="Player2" id="us2"  onclick="rollDice(false);"/>
+    <p id="p1"></p>     
+    <p id="p2"></p>     
+
+  
+    <h2 id="status"></h2>
+<script type="text/javascript">
+
+    var temp1val = 0;
+    var temp2val = 0;
+    onlo(false);
+    function onlo(val)
+    {
+        //debugger;
+        var us1 = document.getElementById('us1');
+        var us2 = document.getElementById('us2');
+        if (val == true)
+            {
+            us2.disabled = false;
+            us1.disabled = true;
+        }
+        else {
+            us2.disabled = true;
+            us1.disabled = false;
+
+        }
+    }
+
+    function rollDice(chkresult)
+    {
+        onlo(chkresult);
+    var die1 = document.getElementById('die1');
+    var die2 = document.getElementById('die2');
+    var status = document.getElementById('status');
+    var d1 = Math.floor(Math.random() * 6)+1;
+    var d2 = Math.floor(Math.random() * 6)+1;
+    if (chkresult)
+    {
+        temp1val += d1 + d2;
+    }
+    else
+    {
+        temp2val +=d1 + d2;
+    }
+    die1.innerHTML = d1;
+    die2.innerHTML = d2;
+    document.getElementById('p1').innerHTML = 'Player1= ' + temp1val;
+    document.getElementById('p2').innerHTML = 'Player2= ' + temp2val;
+
+    if (temp1val >= 50) {
+        alert("User1 is d winner")
+        die1.innerHTML = 0;
+        die2.innerHTML = 0;
+
+        temp1val = 0;
+        temp2val = 0;
+    }
+   else if (temp2val >= 50) {
+        alert("User2 is d winner")
+        die1.innerHTML = 0;
+        die2.innerHTML = 0;
+
+        temp1val = 0;
+        temp2val = 0;
+    }
+
+   else if(d1==d2)
+    {
+        status.innerHTML = "U got draw try 1 more time";
+        onlo(!chkresult);
+    }
+    else
+    {
+        status.innerHTML = "";
+   }
+  
+    }
+</script>
+</body>
+</html>

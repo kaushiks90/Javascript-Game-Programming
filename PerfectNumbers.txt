@@ -1,0 +1,264 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <style type="text/css">
+        #mainform {
+            background-color: gray;
+            width: 206px;
+            height: 238px;
+            border-style: solid;
+            border-width: thick;
+            border-color: antiquewhite;
+            margin: 1px;
+        }
+
+        .subdivs {
+            width: 50px;
+            height: 60px;
+            background-color: aliceblue;
+            border-style: solid;
+            border-width: thick;
+            border-color: antiquewhite;
+            margin: 2px;
+            padding: 2px;
+            float: left;
+            font-size: 36px;
+            cursor: pointer;
+        }
+    </style>
+    <title></title>
+</head>
+<body>
+
+        <div id="mainform">
+        </div>
+
+   
+    <script type="text/javascript">
+        var arrays = ["1", "2", "3", "4", "5", "6", "7", "8", ""]
+        var e = 0;
+        Array.prototype.shuffle = function () {
+            var i = arrays.length, j = 0, j, randomnum, temp;
+            while (--i > 0) {
+                randomnum = Math.floor(Math.random() * (i + 1));
+                temp = this[randomnum];
+                this[randomnum] = this[j];
+                this[j] = temp;
+            }
+            //document.write(arrays);
+        }
+        function adddiv() {
+            var subdivs = "";
+            arrays.shuffle();
+            for (var i = 0; i < arrays.length; i++) {
+
+                subdivs = subdivs + '<div id="subdiv' + e + '"  class="subdivs"  onclick="replaceExisting(this, \'' + arrays[i] + '\');">' + arrays[i] + ' </div>';
+                e = e + 1;
+            
+            };
+            document.getElementById('mainform').innerHTML = subdivs;
+        }
+        adddiv();
+
+        function replaceExisting(element, getvalues) {
+
+            var ids = element.id;
+            var i = arrays.length;
+            var emptyarray, selectedarray, selectedid, temp1;
+            for (var k = 0; k < i; k++) {
+                if (arrays[k] == getvalues) {
+                    selectedarray = k;
+                }
+                if (arrays[k] == " ") {
+                    emptyarray = k;
+                }
+            }
+            selectedid = "subdiv" + selectedarray;
+            var selectedarray = ids.substring(6);
+            var Emptyresult = validate(selectedarray);
+            var resultelement = document.getElementById(selectedid);
+            var emptyelement = document.getElementById(Emptyresult);
+           // debugger;
+            if (element.innerHTML != " " && Emptyresult!=null) {
+                emptyelement.innerHTML = resultelement.innerHTML;
+                resultelement.innerHTML = " ";
+            }
+          
+
+        }
+
+        function validate(selectedarray) {
+            if (selectedarray == 0) {
+                return getvalues0();
+
+            }
+            if (selectedarray == 1) {
+                return getvalues1();
+            }
+            if (selectedarray == 2) {
+                return getvalues2();
+            }
+            if (selectedarray == 3) {
+                return getvalues3();
+            }
+            if (selectedarray == 4) {
+                return getvalues4();
+            }
+            if (selectedarray == 5) {
+                return getvalues5();
+            }
+            if (selectedarray == 6) {
+                return getvalues6();
+            }
+            if (selectedarray == 7) {
+                return getvalues7();
+            }
+            if (selectedarray == 8) {
+                return getvalues8();
+
+            }
+            else if (_('subdiv0') == 1 && _('subdiv1') == 2 && _('subdiv2') == 3 && _('subdiv3') == 4
+&& _('subdiv4') == 5 && _('subdiv5') == 6 && _('subdiv6') == 7 && _('subdiv7') == 8) {
+                debugger;
+                alert('Congrats u have succeded');
+            }
+        }
+        function _(element) {
+            var d = document.getElementById(element).innerHTML;
+            return d;
+        }
+        function getvalues0() {
+            var val1 = _('subdiv1');
+            if (val1 == " ") {
+                return "subdiv1"
+            }
+            var val3 = _('subdiv3');
+            if (val3 == " ") {
+                return "subdiv3"
+            }
+            else
+                return null;
+        }
+        function getvalues1() {
+            var val0 = _('subdiv0');
+            if (val0 == " ") {
+                return "subdiv0"
+            }
+            var val2 = _('subdiv2');
+            if (val2 == " ") {
+                return "subdiv2"
+            }
+            var val4 = _('subdiv4');
+            if (val4 == " ") {
+                return "subdiv4"
+            }
+            else
+                return null;
+        }
+        function getvalues2() {
+            var val1 = _('subdiv1');
+            if (val1 == " ") {
+                return "subdiv1"
+            }
+            var val5 = _('subdiv5');
+            if (val5 == " ") {
+                return "subdiv5"
+            }
+            else
+                return null;
+        }
+        function getvalues3() {
+            var val0 = _('subdiv0');
+            if (val0 == " ") {
+                return "subdiv0"
+            }
+            var val4 = _('subdiv4');
+            if (val4 == " ") {
+                return "subdiv4"
+            }
+            var val6 = _('subdiv6');
+            if (val6 == " ") {
+                return "subdiv6"
+            }
+            else
+                return null;
+        }
+        function getvalues4() {
+            var val1 = _('subdiv1');
+            if (val1 == " ") {
+                return "subdiv1"
+            }
+            var val3 = _('subdiv3');
+            if (val3 == " ") {
+                return "subdiv3"
+            }
+            var val5 = _('subdiv5');
+            if (val5 == " ") {
+                return "subdiv5"
+            }
+            var val7 = _('subdiv7');
+            if (val7 == " ") {
+                return "subdiv7"
+            }
+            else
+                return null;
+        }
+        function getvalues5() {
+            var val2 = _('subdiv2');
+            if (val2 == " ") {
+                return "subdiv2"
+            }
+            var val4 = _('subdiv4');
+            if (val4 == " ") {
+                return "subdiv4"
+            }
+            var val8 = _('subdiv8');
+            if (val8 == " ") {
+                return "subdiv8"
+            }
+            else
+                return null;
+        }
+        function getvalues6() {
+            var val3 = _('subdiv3');
+            if (val3 == " ") {
+                return "subdiv3"
+            }
+            var val7 = _('subdiv7');
+            if (val7 == " ") {
+                return "subdiv7"
+            }
+            else
+                return null;
+        }
+        function getvalues7() {
+            var val6 = _('subdiv6');
+            if (val6 == " ") {
+                return "subdiv6"
+            }
+            var val8 = _('subdiv8');
+            if (val8 == " ") {
+                return "subdiv8"
+            }
+            var val4 = _('subdiv4');
+            if (val4 == " ") {
+                return "subdiv4"
+            }
+            else
+                return null;
+        }
+        function getvalues8() {
+            var val5 = _('subdiv5');
+            if (val5 == " ") {
+                return "subdiv5"
+            }
+            var val7 = _('subdiv7');
+            if (val7 == " ") {
+                return "subdiv7"
+            }
+            else
+                return null;
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<html>
+<head 
+    <style type="text/css">
+        .btn {
+            width: 55px;
+            height: 55px;
+            font-size: 25px;
+        }
+    </style>
+    <title></title>
+</head>
+<body>
+    <div id="dashboard"></div>
+    <script type="text/javascript">
+        function _(iD) {
+            return document.getElementById(iD);
+        }
+        
+        var board = "";
+        var trs = "";
+        var player = true;
+        var alphabets = ["A", "B", "C", "D", "E", "F", "G", "H", "I"];
+        var element = "";
+        var firstloop = 0;
+        function BindBoard() {
+            var ddlselected = _("ddl");
+            firstloop = 9;
+            board = board + "<table>";
+            for (var i = 0 ; i < firstloop; i++) {
+                trs = trs + "<tr>"
+                element = alphabets[i];
+                for (var j = 0; j < firstloop; j++) {
+                    trs = trs + "<td><input class='btn' id=" + element + j + " type='button' onclick='bindValues(" + element + j + ")'/></td>";
+                }
+                trs = trs + "</tr>"
+            }
+            board = board + trs;
+            var dashboard = _("dashboard");
+            dashboard.innerHTML = board;
+        }
+        BindBoard();
+        function bindValues(getdetails) {
+            var id = _(getdetails.id);
+            if (player == true) {
+                id.value = "X";
+                id.disabled = true;
+                player = false;
+            }
+            else {
+                id.value = "O";
+                id.disabled = true;
+                player = true;
+            }
+            checkforWinner()
+
+        }
+        function checkforWinner() {
+          
+                checkHorizontalforWinner()
+                checkVerticalforWinner();
+                CheckDiagonalforWinner();
+          
+
+        }
+        function checkHorizontalforWinner() {
+            for (var j = 0; j < firstloop; j++) {
+                var compare = alphabets[j];
+                var i = 0;
+                if (_(compare + i).value == _(compare + (i + 1)).value &&
+                    _(compare + i).value == _(compare + (i + 2)).value &&
+                   _(compare + i).value == _(compare + (i + 3)).value &&
+                    _(compare + i).value == _(compare + (i + 4)).value &&
+                   _(compare + i).value == _(compare + (i + 5)).value &&
+                    _(compare + i).value == _(compare + (i + 6)).value &&
+                    _(compare + i).value == _(compare + (i + 7)).value &&
+                     _(compare + i).value == _(compare + (i + 8)).value && _(compare + i).value != "") {
+                    alert(_(compare + i).value + "Wins")
+                    buttonAlldisable();
+                }
+            }
+           
+        }
+        function checkVerticalforWinner() {
+            var i = 0;
+            for (var j = 0; j < firstloop; j++) {
+                //debugger;
+                var compare = alphabets[j];
+                var aa = _(compare + "0")
+                var a = _(alphabets[j + 1] + "1");
+              
+                if (_("A" + j).value == _("B" + i).value &&
+                    _("A" + j).value == _("C" + i).value &&
+                    _("A" + j).value == _("D" + i).value &&
+                    _("A" + j).value == _("E" + i).value &&
+                    _("A" + j).value == _("F" + i).value &&
+                    _("A" + j).value == _("G" + i).value &&
+                    _("A" + j).value == _("H" + i).value &&
+                    _("A" + j).value == _("I" + i).value && _("A" + j).value != "") {
+                    alert(_("A" + j).value + "Wins")
+                    buttonAlldisable();
+                }
+                i++;
+            }
+           
+        }
+        function CheckDiagonalforWinner() {
+            if (_("A0").value == _("B1").value &&
+                _("A0").value == _("C2").value &&
+                _("A0").value == _("D3").value &&
+            _("A0").value == _("E4").value &&
+            _("A0").value == _("F5").value &&
+            _("A0").value == _("G6").value &&
+            _("A0").value == _("H7").value &&
+            _("A0").value == _("I8").value && _("A0").value != "") {
+                alert(_("A0").value + "Wins")
+                buttonAlldisable();
+            }
+            else if (_("A8").value == _("B7").value &&
+                _("A8").value == _("C6").value &&
+                _("A8").value == _("D5").value &&
+            _("A8").value == _("E4").value &&
+            _("A8").value == _("F3").value &&
+            _("A8").value == _("G2").value &&
+            _("A8").value == _("H1").value &&
+            _("A8").value == _("I0").value && _("A8").value != "") {
+                alert(_("A8").value + "Wins")
+                buttonAlldisable();
+            }
+
+        }
+        function buttonAlldisable()
+        {           
+            for (var j = 0; j < firstloop; j++) 
+            {                
+                var compare = alphabets[j];
+                for (var i = 0; i < firstloop; i++) {
+                    _(compare+i).disabled = true;
+                }
+            }
+        }
+
+    </script>
+</body>
+</html>

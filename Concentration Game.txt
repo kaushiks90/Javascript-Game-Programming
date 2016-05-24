@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <style type="text/css">
+        .btn {
+            width: 55px;
+            height: 55px;
+            font-size: 25px;
+        }
+    </style>
+    <title>SelectstarGame</title>
+</head>
+<body>
+    <div id="dashboard">
+    </div>
+    <div  id="result"></div>
+    @*<input type="button" onclick="BindBoard()" value="StartGame" />*@
+    <script type="text/javascript">
+        function _(iD) {
+            return document.getElementById(iD);
+        }
+        var score = 0;
+        var arrays = ["+", "+", "+", "+", "+", "+", "+", "+", "*"]
+        Array.prototype.shuffle = function () {
+            var i = arrays.length, j = 0, j, randomnum, temp;
+            while (--i > 0) {
+                randomnum = Math.floor(Math.random() * (i + 1));
+                temp = this[randomnum];
+                this[randomnum] = this[j];
+                this[j] = temp;
+            }
+            // document.write(arrays);
+        }
+
+      
+        function newboard() {
+            var board = "";
+            var trs = "";
+            var k = 0;
+            arrays.shuffle();
+            board = board + "<table>";
+            for (var i = 0; i < arrays.length; i++) {
+                //debugger;
+                if (i % 3 == 0) {
+                    trs = trs + '<tr>';                   
+                }
+                trs = trs + "<td>" + '<div id="title_' + i + '"  class="btn" onclick="checkAndIncrement(this, \'' + arrays[i] + '\'); ">' + arrays[i] + '</div>' + "</td>";
+                k = k + 1
+                if (k == 3) {
+                    trs = trs + "</tr>"
+                    k = 0;
+                }
+        
+            }
+            board = board + trs;
+            var dashboard = _("dashboard");
+            dashboard.innerHTML = board;
+        }
+        function checkAndIncrement(ids, value) {
+            //debugger;
+            if (value == "*") {
+                score = score + 1;
+            }
+            else {
+                score = score - 1;
+            }
+            _("result").innerHTML = score;
+        }
+    
+        function mainBoard() {
+            var dashboard = _("dashboard");
+            dashboard.innerHTML = "";
+            newboard();
+            setTimeout(mainBoard, 750);
+      
+        }
+        mainBoard();
+
+
+    </script>
+</body>
+</html>
